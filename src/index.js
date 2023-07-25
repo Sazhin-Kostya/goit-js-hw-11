@@ -28,15 +28,30 @@ function handleSearch() {
     getSearch(data)
         .then(response => {
             refs.gallery.insertAdjacentHTML('beforeend', createMarkup(response.data.hits))
+            if (response.data.hits.length < response.config.params.per_page) {
+        refs.buttonLoad.hidden = true;
+         Notiflix.Notify.info(
+          "We're sorry, but you've reached the end of search results."
+        );
+              }
+            
+           
             if (data === '' || response.data.hits.length === 0) {
         refs.gallery.innerHTML = '';
         refs.buttonLoad.hidden = true;
-
+   
         Notiflix.Report.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
-      }
+            }
+            
+        //     if (response.data.hits.length > response.config.params.per_page) {
+        //     refs.buttonLoad.hidden = false;
+        //  }
+
+            
         }
+
         
     );
     refs.buttonLoad.hidden = false;
@@ -61,7 +76,8 @@ async function getSearch(data) {
             q: `${data}`,
             image_type: 'photo',
             orientation: 'horizontal',
-            safesearch: true,
+           safesearch: true,
+            per_page: 40,
             page: 1 ,
        },
     })
@@ -108,7 +124,7 @@ function loadMoreCards() {
             image_type: 'photo',
             orientation: 'horizontal',
             safesearch: true,
-            per_page: 50,
+            per_page: 40,
             page: `${qqq}` ,
        },
     })
@@ -124,11 +140,14 @@ function loadMoreCards() {
         .then(response => {
             console.log(response)
             refs.gallery.insertAdjacentHTML('beforeend', createMarkup(response.data.hits))
+            if (response.data.totalHits > response.config.params.per_page) {
+        
+      }
             if (response.data.hits.length < response.config.params.per_page) {
                console.log(response.data.hits.length)
                console.log(response.config.params.per_page)
         refs.buttonLoad.hidden = true;
-         Notiflix.Report.failure(
+         Notiflix.Notify.info(
           "We're sorry, but you've reached the end of search results."
         );
       }
