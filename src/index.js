@@ -1,10 +1,7 @@
 
 import Notiflix from 'notiflix';
 import axios from "axios";
-//const axios = require('axios').default;
 
-const BASE_URL = 'https://pixabay.com/api/';
-const API_KEY = '38435463-416309d9576d04c5aa9055e45';
 let qqq = 1;
 
 
@@ -15,24 +12,26 @@ const refs = {
     gallery: document.querySelector('.gallery'),
     buttonLoad: document.querySelector('.load-more')
 }
+
+const data = refs.input.value.trim();
+
  refs.buttonLoad.hidden = true;
 
 refs.button.addEventListener('click', handleSearch);
 
 function handleSearch() {
-  const data = refs.input.value;
+  
    if (data === '' ) {
         refs.gallery.innerHTML = '';
         refs.buttonLoad.hidden = true;
-   
-       return Notiflix.Report.failure(
+         Notiflix.Report.failure(
           'Sorry, there are no images matching your search query. Please try again.'
-        );
-            }
-   
-    console.log(data)
-    // getSearch(data);
-    //  console.log(getSearch())
+     ); 
+     
+     return;
+  }
+  
+    
     getSearch(data)
         .then(response => {
             refs.gallery.insertAdjacentHTML('beforeend', createMarkup(response.data.hits))
@@ -41,33 +40,23 @@ function handleSearch() {
          Notiflix.Notify.info(
           "We're sorry, but you've reached the end of search results."
         );
-              }
-            
-           
-            
-            
-        //     if (response.data.hits.length > response.config.params.per_page) {
-        //     refs.buttonLoad.hidden = false;
-        //  }
-
-            
-        }
-
-        
+              }  
+        }  
     );
-    refs.buttonLoad.hidden = false;
+  refs.buttonLoad.hidden = false;
+  document.getElementById('form').reset();
 }
 
 
 refs.form.addEventListener('submit', handlerform);
-
 function handlerform(evt) {
-    evt.preventDefault()
+  evt.preventDefault();
+  
     console.dir(evt.currentTarget)
     refs.gallery.innerHTML = '';
-    qqq = 1;
+  qqq = 1;
+  refs.form.reset();
 }
-
 
 
 async function getSearch(data) {
@@ -84,11 +73,6 @@ async function getSearch(data) {
     })
     return response;
 };
-
-
-
-
-    
 
 
 function createMarkup(arr) {
@@ -112,9 +96,7 @@ function createMarkup(arr) {
 }
 
 
-
 refs.buttonLoad.addEventListener('click', loadMoreCards);
-
 function loadMoreCards() {
     qqq += 1;
     async function getSearch(data) {
@@ -134,9 +116,6 @@ function loadMoreCards() {
     };
     
     const data = refs.input.value;
-    // console.log(data)
-    // getSearch(data);
-    //  console.log(getSearch())
     getSearch(data)
         .then(response => {
             console.log(response)
