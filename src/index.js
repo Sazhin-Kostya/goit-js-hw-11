@@ -20,8 +20,16 @@ const refs = {
 refs.button.addEventListener('click', handleSearch);
 
 function handleSearch() {
+  const data = refs.input.value;
+   if (data === '' ) {
+        refs.gallery.innerHTML = '';
+        refs.buttonLoad.hidden = true;
    
-   const data = refs.input.value;
+       return Notiflix.Report.failure(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
+            }
+   
     console.log(data)
     // getSearch(data);
     //  console.log(getSearch())
@@ -36,14 +44,7 @@ function handleSearch() {
               }
             
            
-            if (data === '' || response.data.hits.length === 0) {
-        refs.gallery.innerHTML = '';
-        refs.buttonLoad.hidden = true;
-   
-        Notiflix.Report.failure(
-          'Sorry, there are no images matching your search query. Please try again.'
-        );
-            }
+            
             
         //     if (response.data.hits.length > response.config.params.per_page) {
         //     refs.buttonLoad.hidden = false;
