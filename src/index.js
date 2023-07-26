@@ -13,14 +13,14 @@ const refs = {
     buttonLoad: document.querySelector('.load-more')
 }
 
-const data = refs.input.value.trim();
+
 
  refs.buttonLoad.hidden = true;
 
 refs.button.addEventListener('click', handleSearch);
 
 function handleSearch() {
-  
+  const data = refs.input.value.trim();
    if (data === '' ) {
         refs.gallery.innerHTML = '';
         refs.buttonLoad.hidden = true;
