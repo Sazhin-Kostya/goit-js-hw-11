@@ -13,22 +13,21 @@ const refs = {
     buttonLoad: document.querySelector('.load-more')
 }
 
-
-
+let data = '';
+console.log(data)
  refs.buttonLoad.hidden = true;
 
 refs.button.addEventListener('click', handleSearch);
 
 function handleSearch() {
-  const data = refs.input.value.trim();
+   data = refs.input.value.trim();
    if (data === '' ) {
         refs.gallery.innerHTML = '';
         refs.buttonLoad.hidden = true;
          Notiflix.Report.failure(
-          'Sorry, there are no images matching your search query. Please try again.'
-     ); 
-     
+          'Sorry, there are no images matching your search query. Please try again.'); 
      return;
+     
   }
   
     
@@ -44,7 +43,7 @@ function handleSearch() {
         }  
     );
   refs.buttonLoad.hidden = false;
-  document.getElementById('form').reset();
+  
 }
 
 
@@ -97,8 +96,11 @@ function createMarkup(arr) {
 
 
 refs.buttonLoad.addEventListener('click', loadMoreCards);
+
+
 function loadMoreCards() {
-    qqq += 1;
+  qqq += 1;
+  console.log(data);
     async function getSearch(data) {
    const  response =  await axios.get('https://pixabay.com/api/',{
         params: {
@@ -115,10 +117,10 @@ function loadMoreCards() {
         
     };
     
-    const data = refs.input.value;
+    
     getSearch(data)
         .then(response => {
-            console.log(response)
+            //console.log(response)
             refs.gallery.insertAdjacentHTML('beforeend', createMarkup(response.data.hits))
             if (response.data.totalHits > response.config.params.per_page) {
         
